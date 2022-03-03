@@ -41,7 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<File> _getArquivo() async {
     final diretorio = await getApplicationDocumentsDirectory();
-    return File("${diretorio.path}/tarefas.json");
+    File arquivo = File("${diretorio.path}/tarefas.json");
+
+    if (!await arquivo.exists()) {
+      return arquivo.create();
+    }
+    return arquivo;
   }
 
   _salvarArquivo() async {
@@ -51,8 +56,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _salvarTarefa() {
     Map<String, dynamic> tarefa = {};
-    tarefa["titulo"] = _tituloController.text;
-    tarefa["descricao"] = _descricaoController.text;
+    tarefa["titulo"] = _tituloController.text.isNotEmpty
+        ? _tituloController.text
+        : "Sem título";
+    tarefa["descricao"] = _descricaoController.text.isNotEmpty
+        ? _descricaoController.text
+        : "Sem descrição";
     tarefa["status"] = false;
 
     setState(() {
@@ -61,7 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _descricaoController.text = "";
     _tituloController.text = "";
-    _salvarArquivo();
   }
 
   _lerArquivo() async {
@@ -78,7 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _lerArquivo().then((tarefas) {
       setState(() {
-        _listaTarefas = json.decode(tarefas);
+        if (tarefas.toString().isNotEmpty) {
+          _listaTarefas = json.decode(tarefas);
+        }
       });
     });
   }
@@ -103,8 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       _ultimaTarefaRemovida = _listaTarefas[index];
                       setState(() {
                         _listaTarefas.removeAt(index);
+                        _salvarArquivo();
                       });
-                      _salvarArquivo();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: const Text("Tarefa removida."),
@@ -114,8 +124,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 _listaTarefas.insert(
                                     index, _ultimaTarefaRemovida);
+                                _salvarArquivo();
                               });
-                              _salvarArquivo();
                             },
                           ),
                         ),
@@ -142,8 +152,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       onChanged: (isStatus) {
                         setState(() {
                           _listaTarefas[index]["status"] = isStatus;
+                          _salvarArquivo();
                         });
-                        _salvarArquivo();
                       },
                     ),
                   ),
@@ -181,13 +191,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
+                      _descricaoController.text = "";
+                      _tituloController.text = "";
                     },
                     child: const Text("Cancelar"),
                   ),
                   TextButton(
+                    // style: ,
                     onPressed: () {
-                      _salvarTarefa();
-                      Navigator.pop(context);
+                      if (_tituloController.text.isNotEmpty ||
+                          _descricaoController.text.isNotEmpty) {
+                        _salvarTarefa();
+                        Navigator.pop(context);
+                      }
                     },
                     child: const Text("Salvar"),
                   ),
