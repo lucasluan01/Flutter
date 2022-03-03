@@ -35,7 +35,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List _listaTarefas = [];
-  final TextEditingController _controllerTarefa = TextEditingController();
+  Map<String, dynamic> _ultimaTarefaRemovida = {};
+  final TextEditingController _tituloController = TextEditingController();
+  final TextEditingController _descricaoController = TextEditingController();
 
   Future<File> _getArquivo() async {
     final diretorio = await getApplicationDocumentsDirectory();
@@ -49,14 +51,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _salvarTarefa() {
     Map<String, dynamic> tarefa = {};
-    tarefa["titulo"] = _controllerTarefa.text;
+    tarefa["titulo"] = _tituloController.text;
+    tarefa["descricao"] = _descricaoController.text;
     tarefa["status"] = false;
 
     setState(() {
       _listaTarefas.add(tarefa);
     });
 
-    _controllerTarefa.text = "";
+    _descricaoController.text = "";
+    _tituloController.text = "";
     _salvarArquivo();
   }
 
@@ -81,8 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // _salvarArquivo();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -93,15 +95,58 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ListView.builder(
               itemCount: _listaTarefas.length,
               itemBuilder: (context, index) {
-                return CheckboxListTile(
-                  title: Text(_listaTarefas[index]["titulo"]),
-                  value: _listaTarefas[index]["status"],
-                  onChanged: (isStatus) {
-                    setState(() {
-                      _listaTarefas[index]["status"] = isStatus;
-                    });
-                    _salvarArquivo();
-                  },
+                return Card(
+                  child: Dismissible(
+                    key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (direcao) {
+                      _ultimaTarefaRemovida = _listaTarefas[index];
+                      setState(() {
+                        _listaTarefas.removeAt(index);
+                      });
+                      _salvarArquivo();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text("Tarefa removida."),
+                          action: SnackBarAction(
+                            label: "Desfazer",
+                            onPressed: () {
+                              setState(() {
+                                _listaTarefas.insert(
+                                    index, _ultimaTarefaRemovida);
+                              });
+                              _salvarArquivo();
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    background: Container(
+                      padding: const EdgeInsets.only(
+                        right: 10,
+                      ),
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      child: const Text(
+                        "Remover",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    child: CheckboxListTile(
+                      title: Text(_listaTarefas[index]["titulo"]),
+                      subtitle: Text(_listaTarefas[index]["descricao"]),
+                      value: _listaTarefas[index]["status"],
+                      onChanged: (isStatus) {
+                        setState(() {
+                          _listaTarefas[index]["status"] = isStatus;
+                        });
+                        _salvarArquivo();
+                      },
+                    ),
+                  ),
                 );
               },
             ),
@@ -115,11 +160,22 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context) {
               return AlertDialog(
                 title: const Text("Adicionar tarefa"),
-                content: TextField(
-                  controller: _controllerTarefa,
-                  decoration: const InputDecoration(
-                    labelText: "Informe a nova tarefa",
-                  ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: _tituloController,
+                      decoration: const InputDecoration(
+                        labelText: "Título:",
+                      ),
+                    ),
+                    TextField(
+                      controller: _descricaoController,
+                      decoration: const InputDecoration(
+                        labelText: "Descrição:",
+                      ),
+                    ),
+                  ],
                 ),
                 actions: <Widget>[
                   TextButton(
