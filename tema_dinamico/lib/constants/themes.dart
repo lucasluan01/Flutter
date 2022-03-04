@@ -2,18 +2,32 @@ import 'package:flutter/material.dart';
 
 ThemeData themeData(BuildContext context) {
   return ThemeData(
-    primarySwatch: Colors.blue,
+    // primarySwatch: Colors.blue,
+    primaryColor: Colors.amber,
   );
 }
 
 ThemeData darkThemeData(BuildContext context) {
   return ThemeData(
-    primarySwatch: Colors.red,
+    scaffoldBackgroundColor: const Color(0xff121212),
+    appBarTheme: AppBarTheme(
+      backgroundColor: const Color(0xff262626),
+      titleTextStyle: TextStyle(
+        color: Colors.white.withOpacity(0.87),
+        fontSize: 20,
+      ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.teal.shade500,
+    ),
     switchTheme: SwitchThemeData(
-      trackColor: MaterialStateProperty.all<Color>(Colors.red.shade900),
+      trackColor: MaterialStateProperty.all<Color>(Colors.grey.shade600),
       thumbColor: MaterialStateProperty.all<Color>(Colors.white),
     ),
-    textTheme: const TextTheme(
-        headline4: TextStyle(fontSize: 40, color: Colors.white)),
+    textTheme: TextTheme(
+      bodyText2: TextStyle(
+        color: Colors.white.withOpacity(0.6),
+      ),
+    ),
   );
 }

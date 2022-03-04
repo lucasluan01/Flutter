@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'constants/themes.dart';
 
 void main() {
@@ -37,10 +36,11 @@ class _DynamicThemeState extends State<DynamicTheme> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: pattern ? darkThemeData(context) : themeData(context),
+      theme: !pattern ? themeData(context) : darkThemeData(context),
+      darkTheme: darkThemeData(context),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Dynamic Theme"),
+          title: const Text("Tema Dinâmico"),
           actions: [
             Switch(
               value: pattern,
@@ -56,13 +56,8 @@ class _DynamicThemeState extends State<DynamicTheme> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
+              const Text('You have pushed the button this many times:'),
+              Text('$_counter'),
             ],
           ),
         ),
