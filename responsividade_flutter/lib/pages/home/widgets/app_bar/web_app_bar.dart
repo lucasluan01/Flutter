@@ -6,15 +6,63 @@ class WebAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.black,
       toolbarHeight: 72,
-      title: const Text(
-        'Web',
+      title: Row(
+        children: [
+          const Text(
+            'Web',
+          ),
+          const SizedBox(
+            width: 32,
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.shopping_cart,
+            ),
+          ),
+          const SizedBox(
+            width: 24,
+          ),
+          SizedBox(
+            height: 38,
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(width: 2.0, color: Colors.white),
+              ),
+              child: const Text(
+                'Fazer login',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          SizedBox(
+            height: 38,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+              ),
+              child: const Text(
+                'Cadastre-se',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
-      ],
     );
   }
 }

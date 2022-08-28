@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MobileAppBar extends StatelessWidget {
   const MobileAppBar({Key? key}) : super(key: key);
 
-  @override
-  Size get preferredSize => const Size(double.infinity, 56);
   @override
   Widget build(BuildContext context) {
     return AppBar(
