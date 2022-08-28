@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _listaTarefas.add(tarefa);
     });
-
+    _salvarArquivo();
     _descricaoController.text = "";
     _tituloController.text = "";
   }
@@ -111,10 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     direction: DismissDirection.endToStart,
                     onDismissed: (direcao) {
                       _ultimaTarefaRemovida = _listaTarefas[index];
-                      setState(() {
-                        _listaTarefas.removeAt(index);
-                        _salvarArquivo();
-                      });
+                      _listaTarefas.removeAt(index);
+                      _salvarArquivo();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: const Text("Tarefa removida."),
@@ -124,8 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 _listaTarefas.insert(
                                     index, _ultimaTarefaRemovida);
-                                _salvarArquivo();
                               });
+                              _salvarArquivo();
                             },
                           ),
                         ),
@@ -152,8 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       onChanged: (isStatus) {
                         setState(() {
                           _listaTarefas[index]["status"] = isStatus;
-                          _salvarArquivo();
                         });
+                        _salvarArquivo();
                       },
                     ),
                   ),

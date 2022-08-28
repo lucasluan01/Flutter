@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MobileAppBar({Key? key}) : super(key: key);
+class WebAppBar extends StatelessWidget {
+  const WebAppBar({Key? key}) : super(key: key);
 
-  @override
-  Size get preferredSize => const Size(double.infinity, 56);
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.green,
+      toolbarHeight: 72,
       title: const Text(
-        'Mobile',
+        'Web',
       ),
       actions: [
         IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
