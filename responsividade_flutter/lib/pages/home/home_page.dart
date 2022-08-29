@@ -19,10 +19,17 @@ class HomePage extends StatelessWidget {
                   preferredSize: Size.fromHeight(72),
                   child: WebAppBar(),
                 ),
-          drawer: Drawer(),
-          body: Center(
-            child: Text(
-              'biggest ${constraints.biggest} \t smallest ${constraints.smallest}',
+          drawer: const Drawer(),
+          body: Align(
+            alignment: Alignment.center,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 1400,
+              ),
+              child: Container(
+                height: 1000,
+                color: Colors.red,
+              ),
             ),
           ),
         );
