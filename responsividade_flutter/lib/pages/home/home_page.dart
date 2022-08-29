@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsividade_flutter/pages/home/widgets/app_bar/mobile_app_bar.dart';
 import 'package:responsividade_flutter/pages/home/widgets/app_bar/web_app_bar.dart';
+import 'package:responsividade_flutter/pages/home/widgets/section/courses_section.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,15 +21,17 @@ class HomePage extends StatelessWidget {
                   child: WebAppBar(),
                 ),
           drawer: const Drawer(),
-          body: Align(
-            alignment: Alignment.center,
+          body: Container(
+            padding: const EdgeInsets.all(16),
+            alignment: Alignment.topCenter,
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxWidth: 1400,
               ),
-              child: Container(
-                height: 1000,
-                color: Colors.red,
+              child: ListView(
+                children: const [
+                  CoursesSection(),
+                ],
               ),
             ),
           ),

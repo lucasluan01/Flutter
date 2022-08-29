@@ -6,7 +6,7 @@ void main() {
   runApp(
     DevicePreview(
       builder: (_) => const MyApp(),
-      // enabled: false,
+      enabled: false,
     ),
   );
 }
