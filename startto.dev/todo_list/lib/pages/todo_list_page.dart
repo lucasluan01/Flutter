@@ -74,6 +74,7 @@ class _TodoListPageState extends State<TodoListPage> {
                                 Todo(
                                   title: taskController.text,
                                   creationDate: DateTime.now(),
+                                  done: false,
                                 ),
                               );
                               errorText = null;
@@ -113,6 +114,7 @@ class _TodoListPageState extends State<TodoListPage> {
                         key: Key('$index'),
                         todo: todos[index],
                         onDelete: onDelete,
+                        onChecked: onChecked,
                       ),
                   ],
                 ),
@@ -181,6 +183,11 @@ class _TodoListPageState extends State<TodoListPage> {
         dismissDirection: DismissDirection.none,
       ),
     );
+  }
+
+  void onChecked(Todo todo) {
+    todo.done = !todo.done;
+    _todoRepository.saveTodoList(todos);
   }
 
   void showDeleteTodosConfirmationDialog() {
