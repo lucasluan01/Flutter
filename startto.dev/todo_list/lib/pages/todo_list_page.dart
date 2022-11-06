@@ -17,6 +17,7 @@ class _TodoListPageState extends State<TodoListPage> {
   List<Todo> todos = [];
   Todo? deletedTodo;
   int? deletedTodoPos;
+  String? errorText;
 
   @override
   void initState() {
@@ -45,14 +46,15 @@ class _TodoListPageState extends State<TodoListPage> {
                   padding: const EdgeInsets.all(16),
                   child: IntrinsicHeight(
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
                           child: TextField(
                             controller: taskController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               hintText: 'Adicione uma tarefa',
-                              border: OutlineInputBorder(),
+                              border: const OutlineInputBorder(),
+                              errorText: errorText,
                             ),
                           ),
                         ),
@@ -61,6 +63,12 @@ class _TodoListPageState extends State<TodoListPage> {
                         ),
                         ElevatedButton(
                           onPressed: () {
+                            if (taskController.text.isEmpty) {
+                              setState(() {
+                                errorText = 'Campo obrigatório';
+                              });
+                              return;
+                            }
                             setState(() {
                               todos.add(
                                 Todo(
@@ -68,11 +76,15 @@ class _TodoListPageState extends State<TodoListPage> {
                                   creationDate: DateTime.now(),
                                 ),
                               );
+                              errorText = null;
                             });
                             taskController.clear();
                             _todoRepository.saveTodoList(todos);
                           },
-                          style: ElevatedButton.styleFrom(),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14.5),
+                            elevation: 0,
+                          ),
                           child: const Icon(
                             Icons.add,
                             size: 32,
@@ -84,15 +96,25 @@ class _TodoListPageState extends State<TodoListPage> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  itemCount: todos.length,
-                  itemBuilder: (context, index) {
-                    return TodoListItem(
-                      todo: todos[index],
-                      onDelete: onDelete,
-                    );
+                child: ReorderableListView(
+                  onReorder: (int oldIndex, int newIndex) {
+                    setState(() {
+                      if (oldIndex < newIndex) {
+                        newIndex -= 1;
+                      }
+                      final Todo item = todos.removeAt(oldIndex);
+                      todos.insert(newIndex, item);
+                      _todoRepository.saveTodoList(todos);
+                    });
                   },
+                  children: [
+                    for (int index = 0; index < todos.length; index += 1)
+                      TodoListItem(
+                        key: Key('$index'),
+                        todo: todos[index],
+                        onDelete: onDelete,
+                      ),
+                  ],
                 ),
               ),
               Container(
