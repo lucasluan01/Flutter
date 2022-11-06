@@ -138,7 +138,7 @@ class _TodoListPageState extends State<TodoListPage> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: showDeleteTodosConfirmationDialog,
+                      onPressed: todos.isEmpty ? null : showDeleteTodosConfirmationDialog,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(12.0),
                       ),
