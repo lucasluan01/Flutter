@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/models/todo.dart';
+import 'package:todo_list/repositories/todo_repository.dart';
 import 'package:todo_list/widgets/todo_list_item.dart';
 
 class TodoListPage extends StatefulWidget {
@@ -11,10 +12,24 @@ class TodoListPage extends StatefulWidget {
 
 class _TodoListPageState extends State<TodoListPage> {
   final TextEditingController taskController = TextEditingController();
+  final TodoRepository _todoRepository = TodoRepository();
 
   List<Todo> todos = [];
   Todo? deletedTodo;
   int? deletedTodoPos;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _todoRepository.getTodoList().then(
+          (value) => setState(
+            () {
+              todos = value;
+            },
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +70,7 @@ class _TodoListPageState extends State<TodoListPage> {
                               );
                             });
                             taskController.clear();
+                            _todoRepository.saveTodoList(todos);
                           },
                           style: ElevatedButton.styleFrom(),
                           child: const Icon(
@@ -123,6 +139,7 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       todos.remove(todo);
     });
+    _todoRepository.saveTodoList(todos);
 
     ScaffoldMessenger.of(context).clearSnackBars();
 
@@ -135,6 +152,7 @@ class _TodoListPageState extends State<TodoListPage> {
             setState(() {
               todos.insert(deletedTodoPos!, deletedTodo!);
             });
+            _todoRepository.saveTodoList(todos);
           },
         ),
         duration: const Duration(seconds: 5),
@@ -166,6 +184,7 @@ class _TodoListPageState extends State<TodoListPage> {
               setState(() {
                 todos.clear();
               });
+              _todoRepository.saveTodoList(todos);
               Navigator.of(context).pop();
             },
             style: TextButton.styleFrom(
