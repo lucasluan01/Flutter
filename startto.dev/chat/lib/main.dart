@@ -1,9 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:chat/pages/chat_screen.dart';
+import 'package:chat/repositories/firebase_repository.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await FirebaseRepository.initFirebase();
+
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -12,10 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
-      home: Container(),
+      home: const ChatScreen(),
     );
   }
 }
