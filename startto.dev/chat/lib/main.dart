@@ -1,9 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chat/auth/auth_service.dart';
+import 'package:chat/pages/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AuthService()),
+    ],
+    child: const MyApp(),
+  ));
+
 }
 
 class MyApp extends StatelessWidget {
@@ -12,10 +23,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
-      home: Container(),
+      home: const LoginScreen(),
     );
   }
 }
