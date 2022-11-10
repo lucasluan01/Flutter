@@ -40,7 +40,10 @@ class _TextComposerState extends State<TextComposer> {
 
               FirebaseRepository.sendMessage(imageFile: imageFile);
             },
-            icon: const Icon(Icons.camera_alt),
+            icon: Icon(
+              Icons.camera_alt,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           Expanded(
             child: TextField(
@@ -76,15 +79,15 @@ class _TextComposerState extends State<TextComposer> {
             Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(10),
+                shape: BoxShape.circle,
               ),
               child: IconButton(
                 padding: const EdgeInsets.all(0),
-                onPressed: () {
-                  widget.sendMessage!(message: messageController.text);
-                  messageController.clear();
+                onPressed: () async {
+                  await widget.sendMessage!(message: messageController.text);
                   setState(() {
                     isComposing = false;
+                    messageController.clear();
                   });
                 },
                 icon: const Icon(
