@@ -1,13 +1,19 @@
-import 'package:chat/pages/chat_screen.dart';
-import 'package:chat/repositories/firebase_repository.dart';
+import 'package:chat/auth/auth_service.dart';
+import 'package:chat/pages/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-  await FirebaseRepository.initFirebase();
-
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AuthService()),
+    ],
+    child: const MyApp(),
+  ));
 
 }
 
@@ -21,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: const ChatScreen(),
+      home: const LoginScreen(),
     );
   }
 }
