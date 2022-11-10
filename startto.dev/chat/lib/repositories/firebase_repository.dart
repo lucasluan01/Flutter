@@ -1,18 +1,17 @@
 import 'dart:io';
+import 'package:chat/auth/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FirebaseRepository {
-  static Future<void> initFirebase() async {
-    await Firebase.initializeApp();
-  }
-
   static uploadFile(XFile imageFile) async {
     String url = "";
-
-    Reference ref = FirebaseStorage.instance.ref().child(DateTime.now().millisecondsSinceEpoch.toString());
+    AuthService auth = AuthService();
+    Reference ref = FirebaseStorage.instance.ref().child(
+          auth.getCurrentUser().uid + DateTime.now().millisecondsSinceEpoch.toString(),
+        );
     UploadTask task = ref.putFile(File(imageFile.path));
 
     await task.whenComplete(() async {
@@ -21,11 +20,18 @@ class FirebaseRepository {
     return url;
   }
 
-  static void sendMessage({
+  static sendMessage({
     String? message,
     XFile? imageFile,
   }) async {
-    Map<String, dynamic> bodyMessage = {};
+    AuthService auth = AuthService();
+    User user = auth.getCurrentUser();
+
+    Map<String, dynamic> bodyMessage = {
+      "senderID": user.uid,
+      "senderName": user.displayName,
+      "sentIn": DateTime.now().toString(),
+    };
 
     if (message != null) {
       bodyMessage["text"] = message;
