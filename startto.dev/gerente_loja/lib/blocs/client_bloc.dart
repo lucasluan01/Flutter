@@ -62,6 +62,23 @@ class ClientBloc extends BlocBase {
     _clients[uid]!["subscription"].cancel();
   }
 
+  void onChangedSearch(String search) {
+    if (search.trim().isEmpty) {
+      _clientController.add(_clients.values.toList());
+      return;
+    }
+    _clientController.add(_filter(search.trim()));
+  }
+
+  List<Map<String, dynamic>> _filter(String filter) {
+    List<Map<String, dynamic>> filteredClients = List.from(_clients.values.toList());
+    filteredClients.retainWhere((client) {
+      return client["name"].toUpperCase().contains(filter.toUpperCase());
+    });
+
+    return filteredClients;
+  }
+
   @override
   void dispose() {
     super.dispose();

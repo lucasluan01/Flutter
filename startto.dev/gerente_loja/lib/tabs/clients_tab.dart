@@ -12,14 +12,18 @@ class ClientsTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        const TextField(
-          style: TextStyle(
+        TextField(
+          style: const TextStyle(
             color: Colors.white,
           ),
           decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search, color: Theme.of(context).primaryColor),
             hintText: "Pesquisar",
-            hintStyle: TextStyle(color: Colors.white),
+            hintStyle: const TextStyle(color: Colors.white),
           ),
+          onChanged: (value) {
+            clientBloc.onChangedSearch(value);
+          },
         ),
         StreamBuilder<List>(
           stream: clientBloc.outClients,

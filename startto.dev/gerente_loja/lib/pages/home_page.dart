@@ -1,7 +1,9 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:gerente_loja/blocs/client_bloc.dart';
+import 'package:gerente_loja/blocs/orders_bloc.dart';
 import 'package:gerente_loja/tabs/clients_tab.dart';
+import 'package:gerente_loja/tabs/orders_tab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late PageController _pageController;
   late ClientBloc _clientBloc;
+  late OrdersBloc _ordersBloc;
   int _pageIndex = 0;
 
   @override
@@ -20,6 +23,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _pageController = PageController();
     _clientBloc = ClientBloc();
+    _ordersBloc = OrdersBloc();
   }
 
   @override
@@ -27,6 +31,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
     _pageController.dispose();
     _clientBloc.dispose();
+    _ordersBloc.dispose();
   }
 
   @override
@@ -61,23 +66,23 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: BlocProvider(
           blocs: [
-            Bloc((i) => ClientBloc()),
+            Bloc((i) => _clientBloc),
           ],
           dependencies: const [],
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _pageIndex = index;
-              });
-            },
-            children: <Widget>[
-              const ClientsTab(),
-              Container(
-                color: Colors.blue,
-              ),
-              Container(color: Colors.red)
+          child: BlocProvider(
+            blocs: [
+              Bloc((i) => _ordersBloc),
             ],
+            dependencies: const [],
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _pageIndex = index;
+                });
+              },
+              children: <Widget>[const ClientsTab(), const OrdersTab(), Container(color: Colors.red)],
+            ),
           ),
         ),
       ),
