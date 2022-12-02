@@ -1,8 +1,11 @@
 import 'package:mobx/mobx.dart';
 import 'package:xlo_mobx/helpers/extensions.dart';
+import 'package:xlo_mobx/models/user.dart';
+import 'package:xlo_mobx/repositories/user_repository.dart';
 
 part 'signup_store.g.dart';
 
+// ignore: library_private_types_in_public_api
 class SignupStore = _SignupStoreBase with _$SignupStore;
 
 abstract class _SignupStoreBase with Store {
@@ -23,6 +26,9 @@ abstract class _SignupStoreBase with Store {
 
   @observable
   bool isLoading = false;
+
+  @observable
+  String? error;
 
   @action
   void setName(String value) => name = value;
@@ -46,9 +52,17 @@ abstract class _SignupStoreBase with Store {
   Future<void> _signup() async {
     isLoading = true;
 
-    await Future.delayed(const Duration(seconds: 3));
+    final user = User(name: name!, email: email!, phone: phone!, password: password!);
 
-    isLoading = false;
+    try {
+      final resultUser = await UserRepository().signUp(user);
+      print(resultUser);
+    } catch (e) {
+      error = e as String;
+    }
+    finally {
+      isLoading = false;
+    }
   }
 
   @computed

@@ -29,6 +29,18 @@ class SignupScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32),
                 child: Observer(
                   builder: (_) {
+                    if (signupStore.error != null) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(signupStore.error!),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      });
+                    }
+
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
