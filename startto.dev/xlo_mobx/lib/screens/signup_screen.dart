@@ -144,7 +144,6 @@ class SignupScreen extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: signupStore.signupPressed,
                             style: ElevatedButton.styleFrom(
-                              // padding: const EdgeInsets.symmetric(vertical: 16),
                               elevation: 0,
                               disabledBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.25),
                               disabledForegroundColor: Colors.white,
