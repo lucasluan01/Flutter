@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xlo_mobx/screens/login_screen.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
   const CustomDrawerHeader({super.key});
@@ -29,7 +30,9 @@ class CustomDrawerHeader extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const LoginScreen()));
+                  },
                 ),
               ],
             ),

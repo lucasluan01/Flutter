@@ -35,6 +35,9 @@ class MyApp extends StatelessWidget {
       title: 'XLO',
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        appBarTheme: const AppBarTheme(elevation: 0),
+        scaffoldBackgroundColor: Colors.purple,
+        indicatorColor: Theme.of(context).primaryColor,
       ),
       home: const BaseScreen(),
     );

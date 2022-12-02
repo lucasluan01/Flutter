@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DrawerTile extends StatelessWidget {
-  const DrawerTile({
+class CustomDrawerTile extends StatelessWidget {
+  const CustomDrawerTile({
     super.key,
     required this.icon,
     required this.title,

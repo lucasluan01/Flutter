@@ -9,7 +9,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       drawer: const CustomDrawer(),
-      body: Container(),
+      body: SafeArea(
+        child: Container(),
+      ),
     );
   }
 }
