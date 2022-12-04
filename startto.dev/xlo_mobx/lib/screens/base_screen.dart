@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:xlo_mobx/screens/create_ad/create_ad_screen.dart';
 import 'package:xlo_mobx/screens/home_screen.dart';
 import 'package:xlo_mobx/stores/page_store.dart';
 
@@ -33,18 +34,17 @@ class _BaseScreenState extends State<BaseScreen> {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           const HomeScreen(),
+          const CreateAdScreen(),
           Container(
             color: Colors.amber,
             child: Center(
               child: ElevatedButton(
-                onPressed: () => pageController.jumpToPage(1),
+                onPressed: () => pageController.jumpToPage(4),
                 child: const Text("ir para pagina verde"),
               ),
             ),
           ),
           Container(color: Colors.green),
-          Container(color: Colors.red),
-          Container(color: Colors.blue),
           Container(color: Colors.purple),
         ],
       ),

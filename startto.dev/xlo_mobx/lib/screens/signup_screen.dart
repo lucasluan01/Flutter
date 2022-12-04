@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,10 @@ class SignupScreen extends StatelessWidget {
                                   )
                                 : null,
                           ),
-                          inputFormatters: [MaskedInputFormatter('(##) # ####-####')],
+                          inputFormatters: [
+                            MaskedInputFormatter('(##) # ####-####'),
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                           keyboardType: TextInputType.number,
                           onChanged: signupStore.setPhone,
                         ),

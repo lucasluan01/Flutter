@@ -20,7 +20,6 @@ class LoginScreen extends StatelessWidget {
           alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Card(
-              elevation: 1,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
