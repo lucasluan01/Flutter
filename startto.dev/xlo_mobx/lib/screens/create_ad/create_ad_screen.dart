@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xlo_mobx/components/custom_drawer/custom_drawer.dart';
+import 'package:xlo_mobx/screens/create_ad/components/category_field.dart';
 import 'package:xlo_mobx/screens/create_ad/components/images_field.dart';
 import 'package:xlo_mobx/stores/create_ad_store.dart';
 
@@ -66,6 +67,8 @@ class CreateAdScreen extends StatelessWidget {
                       minLines: 1,
                       // onChanged: loginStore.setEmail,
                     ),
+                    const SizedBox(height: 16),
+                    CategoryField(createAdStore: createAdStore),
                     const SizedBox(height: 16),
                     TextField(
                       // enabled: !loginStore.isLoading,
