@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xlo_mobx/components/custom_drawer/custom_drawer.dart';
 import 'package:xlo_mobx/screens/create_ad/components/category_field.dart';
 import 'package:xlo_mobx/screens/create_ad/components/cep_field.dart';
+import 'package:xlo_mobx/screens/create_ad/components/hide_phone_field.dart';
 import 'package:xlo_mobx/screens/create_ad/components/images_field.dart';
 import 'package:xlo_mobx/stores/create_ad_store.dart';
 
@@ -33,11 +34,11 @@ class CreateAdScreen extends StatelessWidget {
                   children: [
                     ImagesField(createStore: createAdStore),
                     const SizedBox(height: 16),
-                    TextField(
+                    const TextField(
                       // enabled: !loginStore.isLoading,
                       decoration: InputDecoration(
                         labelText: "Título",
-                        border: const OutlineInputBorder(),
+                        border: OutlineInputBorder(),
                         isDense: true,
                         // errorText: loginStore.emailError,
                         // suffixIcon: loginStore.emailError != null
@@ -50,11 +51,11 @@ class CreateAdScreen extends StatelessWidget {
                       // onChanged: loginStore.setEmail,
                     ),
                     const SizedBox(height: 16),
-                    TextField(
+                    const TextField(
                       // enabled: !loginStore.isLoading,
                       decoration: InputDecoration(
                         labelText: "Descrição",
-                        border: const OutlineInputBorder(),
+                        border: OutlineInputBorder(),
                         isDense: true,
                         // errorText: loginStore.emailError,
                         // suffixIcon: loginStore.emailError != null
@@ -73,11 +74,11 @@ class CreateAdScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     const CepField(),
                     const SizedBox(height: 16),
-                    TextField(
+                    const TextField(
                       // enabled: !loginStore.isLoading,
                       decoration: InputDecoration(
                         labelText: "Preço",
-                        border: const OutlineInputBorder(),
+                        border: OutlineInputBorder(),
                         isDense: true,
                         prefixText: "R\$ ",
                         // errorText: loginStore.emailError,
@@ -91,7 +92,8 @@ class CreateAdScreen extends StatelessWidget {
                       keyboardType: TextInputType.number,
                       // onChanged: loginStore.setEmail,
                     ),
-                    const SizedBox(height: 48),
+                    HidePhoneField(createAdStore: createAdStore),
+                    const SizedBox(height: 16),
                     SizedBox( 
                       height: 50,
                       child: ElevatedButton(

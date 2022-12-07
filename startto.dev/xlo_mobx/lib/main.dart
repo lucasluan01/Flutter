@@ -13,9 +13,7 @@ void main() async {
   setupLocators();
   runApp(const MyApp());
 
-  IbgeRepository().getUFList().then((v) {
-    IbgeRepository().getCityListFromApi(v.first).then((value) => print(value));
-  });
+  IbgeRepository().getUFList();
 }
 
 Future<void> initializeParse() async {

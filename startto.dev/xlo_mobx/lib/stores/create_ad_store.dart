@@ -11,6 +11,12 @@ abstract class _CreateAdStoreBase with Store {
   @observable
   Category? category;
 
+  @observable
+  bool hidePhone = false;
+
   @action
   void setCategory(Category value) => category = value;
+
+  @action
+  void setHidePhone(bool? value) => hidePhone = value!;
 }

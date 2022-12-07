@@ -25,6 +25,22 @@ mixin _$CreateAdStore on _CreateAdStoreBase, Store {
     });
   }
 
+  late final _$hidePhoneAtom =
+      Atom(name: '_CreateAdStoreBase.hidePhone', context: context);
+
+  @override
+  bool get hidePhone {
+    _$hidePhoneAtom.reportRead();
+    return super.hidePhone;
+  }
+
+  @override
+  set hidePhone(bool value) {
+    _$hidePhoneAtom.reportWrite(value, super.hidePhone, () {
+      super.hidePhone = value;
+    });
+  }
+
   late final _$_CreateAdStoreBaseActionController =
       ActionController(name: '_CreateAdStoreBase', context: context);
 
@@ -40,9 +56,21 @@ mixin _$CreateAdStore on _CreateAdStoreBase, Store {
   }
 
   @override
+  void setHidePhone(bool? value) {
+    final _$actionInfo = _$_CreateAdStoreBaseActionController.startAction(
+        name: '_CreateAdStoreBase.setHidePhone');
+    try {
+      return super.setHidePhone(value);
+    } finally {
+      _$_CreateAdStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-category: ${category}
+category: ${category},
+hidePhone: ${hidePhone}
     ''';
   }
 }
