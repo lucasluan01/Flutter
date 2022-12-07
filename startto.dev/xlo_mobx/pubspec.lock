@@ -226,7 +226,7 @@ packages:
     source: hosted
     version: "0.7.8"
   dio:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio
       url: "https://pub.dartlang.org"
@@ -689,7 +689,7 @@ packages:
     source: hosted
     version: "2.0.1+1"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xlo_mobx/components/custom_drawer/custom_drawer.dart';
 import 'package:xlo_mobx/screens/create_ad/components/category_field.dart';
+import 'package:xlo_mobx/screens/create_ad/components/cep_field.dart';
 import 'package:xlo_mobx/screens/create_ad/components/images_field.dart';
 import 'package:xlo_mobx/stores/create_ad_store.dart';
 
@@ -70,22 +71,7 @@ class CreateAdScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     CategoryField(createAdStore: createAdStore),
                     const SizedBox(height: 16),
-                    TextField(
-                      // enabled: !loginStore.isLoading,
-                      decoration: InputDecoration(
-                        labelText: "CEP",
-                        border: const OutlineInputBorder(),
-                        isDense: true,
-                        // errorText: loginStore.emailError,
-                        // suffixIcon: loginStore.emailError != null
-                        //     ? const Icon(
-                        //         Icons.error,
-                        //         color: Colors.red,
-                        //       )
-                        //     : null,
-                      ),
-                      // onChanged: loginStore.setEmail,
-                    ),
+                    const CepField(),
                     const SizedBox(height: 16),
                     TextField(
                       // enabled: !loginStore.isLoading,
