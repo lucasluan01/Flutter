@@ -14,43 +14,64 @@ class CategoryField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.grey),
-          ),
-          child: ListTile(
-            title: Text(
-              "Categoria",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: createAdStore.category != null ? 12 : 18,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                border: createAdStore.categoryValid
+                    ? Border.all(color: Colors.grey)
+                    : Border.all(
+                        color: Colors.red.shade700,
+                        width: 2,
+                      ),
+              ),
+              child: ListTile(
+                title: Text(
+                  "Categoria",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: createAdStore.category != null ? 12 : 18,
+                  ),
+                ),
+                subtitle: createAdStore.category != null
+                    ? Text(
+                        createAdStore.category!.description!,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      )
+                    : null,
+                trailing: const Icon(Icons.keyboard_arrow_down),
+                onTap: () async {
+                  final category = await showDialog(
+                    context: context,
+                    builder: (_) => CategoryScreen(
+                      isShowAll: false,
+                      selected: createAdStore.category,
+                    ),
+                  );
+
+                  if (category != null) {
+                    createAdStore.setCategory(category);
+                  }
+                },
               ),
             ),
-            subtitle: createAdStore.category != null
-                ? Text(
-                    createAdStore.category!.description!,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
-                  )
-                : null,
-            trailing: const Icon(Icons.keyboard_arrow_down),
-            onTap: () async {
-              final category = await showDialog(
-                context: context,
-                builder: (_) => CategoryScreen(
-                  isShowAll: false,
-                  selected: createAdStore.category,
+            if (!createAdStore.categoryValid)
+              Container(
+                margin: const EdgeInsets.only(left: 14, top: 6),
+                child: Text(
+                  createAdStore.categoryError!,
+                  style: TextStyle(
+                    color: Colors.red.shade700,
+                    fontSize: 12,
+                  ),
                 ),
-              );
-
-              if (category != null) {
-                createAdStore.setCategory(category);
-              }
-            },
-          ),
+              ),
+          ],
         );
       },
     );

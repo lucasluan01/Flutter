@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo_mobx/components/custom_drawer/custom_drawer.dart';
 import 'package:xlo_mobx/screens/create_ad/components/category_field.dart';
 import 'package:xlo_mobx/screens/create_ad/components/cep_field.dart';
@@ -34,72 +35,86 @@ class CreateAdScreen extends StatelessWidget {
                   children: [
                     ImagesField(createStore: createAdStore),
                     const SizedBox(height: 16),
-                    const TextField(
-                      // enabled: !loginStore.isLoading,
-                      decoration: InputDecoration(
-                        labelText: "Título",
-                        border: OutlineInputBorder(),
-                        isDense: true,
-                        // errorText: loginStore.emailError,
-                        // suffixIcon: loginStore.emailError != null
-                        //     ? const Icon(
-                        //         Icons.error,
-                        //         color: Colors.red,
-                        //       )
-                        //     : null,
-                      ),
-                      // onChanged: loginStore.setEmail,
+                    Observer(
+                      builder: (_) {
+                        return TextField(
+                          // enabled: !loginStore.isLoading,
+                          decoration: InputDecoration(
+                            labelText: "Título",
+                            border: const OutlineInputBorder(),
+                            isDense: true,
+                            errorText: createAdStore.titleError,
+                            suffixIcon: createAdStore.titleError != null
+                                ? const Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                  )
+                                : null,
+                          ),
+                          onChanged: createAdStore.setTitle,
+                        );
+                      },
                     ),
                     const SizedBox(height: 16),
-                    const TextField(
-                      // enabled: !loginStore.isLoading,
-                      decoration: InputDecoration(
-                        labelText: "Descrição",
-                        border: OutlineInputBorder(),
-                        isDense: true,
-                        // errorText: loginStore.emailError,
-                        // suffixIcon: loginStore.emailError != null
-                        //     ? const Icon(
-                        //         Icons.error,
-                        //         color: Colors.red,
-                        //       )
-                        //     : null,
-                      ),
-                      maxLines: 4,
-                      minLines: 1,
-                      // onChanged: loginStore.setEmail,
+                    Observer(
+                      builder: (_) {
+                        return TextField(
+                          // enabled: !loginStore.isLoading,
+                          decoration: InputDecoration(
+                            labelText: "Descrição",
+                            border: const OutlineInputBorder(),
+                            isDense: true,
+                            errorText: createAdStore.descriptionError,
+                            suffixIcon: createAdStore.descriptionError != null
+                                ? const Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                  )
+                                : null,
+                          ),
+                          maxLines: 4,
+                          minLines: 1,
+                          onChanged: createAdStore.setDescription,
+                        );
+                      },
                     ),
                     const SizedBox(height: 16),
                     CategoryField(createAdStore: createAdStore),
                     const SizedBox(height: 16),
-                    const CepField(),
+                    CepField(createAdStore: createAdStore),
                     const SizedBox(height: 16),
-                    const TextField(
-                      // enabled: !loginStore.isLoading,
-                      decoration: InputDecoration(
-                        labelText: "Preço",
-                        border: OutlineInputBorder(),
-                        isDense: true,
-                        prefixText: "R\$ ",
-                        // errorText: loginStore.emailError,
-                        // suffixIcon: loginStore.emailError != null
-                        //     ? const Icon(
-                        //         Icons.error,
-                        //         color: Colors.red,
-                        //       )
-                        //     : null,
-                      ),
-                      keyboardType: TextInputType.number,
-                      // onChanged: loginStore.setEmail,
+                    Observer(builder: (_) {
+                      return TextField(
+                        // enabled: !loginStore.isLoading,
+                        decoration: InputDecoration(
+                          labelText: "Preço",
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          prefixText: "R\$ ",
+                          errorText: createAdStore.priceError,
+                          suffixIcon: createAdStore.priceError != null
+                              ? const Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                )
+                              : null,
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: createAdStore.setPrice,
+                      );
+                    }
                     ),
                     HidePhoneField(createAdStore: createAdStore),
                     const SizedBox(height: 16),
-                    SizedBox( 
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text("Enviar"),
-                      ),
+                    Observer(builder: (_) {
+                      return SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: createAdStore.sendPressed,
+                          child: const Text("Enviar"),
+                        ),
+                      );
+                    }
                     ),
                   ],
                 ),

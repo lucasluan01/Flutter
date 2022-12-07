@@ -2,27 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo_mobx/stores/cep_store.dart';
+import 'package:xlo_mobx/stores/create_ad_store.dart';
 
 class CepField extends StatelessWidget {
-  const CepField({super.key});
+  CepField({
+    super.key,
+    required this.createAdStore,
+  }) : cepStore = createAdStore.cepStore;
+
+  final CreateAdStore createAdStore;
+  final CepStore cepStore;
 
   @override
   Widget build(BuildContext context) {
-    final cepStore = CepStore();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextFormField(
-          onChanged: cepStore.setCep,
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-          decoration: const InputDecoration(
-            labelText: "CEP",
-            border: OutlineInputBorder(),
-          ),
+        Observer(
+          builder: (_) {
+            return TextFormField(
+              onChanged: cepStore.setCep,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              decoration: InputDecoration(
+                labelText: "CEP",
+                border: const OutlineInputBorder(),
+                errorText: createAdStore.addressError,
+                suffixIcon: createAdStore.addressError != null
+                    ? const Icon(
+                        Icons.error,
+                        color: Colors.red,
+                        size: 18,
+                      )
+                    : null,
+              ),
+            );
+          },
         ),
         Observer(builder: (_) {
           if (cepStore.address == null && cepStore.error == null && !cepStore.loading) {

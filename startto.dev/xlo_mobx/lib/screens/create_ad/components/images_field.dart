@@ -33,6 +33,17 @@ class ImagesField extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: createStore.images.length < 5 ? createStore.images.length + 1 : 5,
           itemBuilder: (_, index) {
+            if (createStore.imagesError != null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(createStore.imagesError!),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              });
+            }
             if (index == createStore.images.length) {
               return GestureDetector(
                 onTap: () {
